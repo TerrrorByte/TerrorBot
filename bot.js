@@ -2,6 +2,8 @@
 require('./deploy-commands.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const colors = require('colors');
+const { DateTime } = require('luxon');
 
 const { Client, Intents, Collection } = require('discord.js');
 const { token } = require('./config.json');
@@ -12,6 +14,13 @@ module.exports.client = new Client({
 	],
 });
 
+colors.setTheme({
+	time: 'red',
+	debug: 'green',
+	commands: 'blue',
+	bot: 'yellow',
+	interaction: 'magenta',
+});
 
 this.client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
@@ -42,7 +51,7 @@ for (const file of eventFiles) {
 
 
 this.client.once('ready', () => {
-	console.log(`[BOT] ${this.client.user.tag} is ready`);
+	console.log('['.time + DateTime.now().toFormat('D TT').time + '] '.time + '[BOT] '.bot + `${this.client.user.tag} is ready`);
 });
 
 this.client.login(token);

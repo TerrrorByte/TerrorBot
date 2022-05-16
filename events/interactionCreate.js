@@ -1,9 +1,19 @@
 const { client } = require('../bot.js');
+const colors = require('colors');
+const { DateTime } = require('luxon');
+
+colors.setTheme({
+	time: 'red',
+	debug: 'green',
+	commands: 'blue',
+	bot: 'yellow',
+	interaction: 'magenta',
+});
 
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction) {
-		console.log(`[INTERACTION] ${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
+		console.log('['.time + DateTime.now().toFormat('D TT').time + '] '.time + '[INTERACTION] '.interaction + `${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
 
 		const command = client.commands.get(interaction.commandName);
 

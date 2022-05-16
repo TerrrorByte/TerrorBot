@@ -1,8 +1,19 @@
 const { clientId, token } = require('./config.json');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const { DateTime } = require('luxon');
+
 const fs = require('node:fs');
 const path = require('node:path');
+const colors = require('colors');
+
+colors.setTheme({
+	time: 'red',
+	debug: 'green',
+	commands: 'blue',
+	bot: 'yellow',
+	interaction: 'magenta',
+});
 
 const commands = [];
 const commandPath = path.join(__dirname, 'commands');
@@ -16,13 +27,13 @@ for (const file of commandFiles) {
 
 const rest = new REST({ version: '9' }).setToken(token);
 
-console.log('[COMMANDS] Started refreshing application (/) commands.');
+console.log('['.time + DateTime.now().toFormat('D TT').time + '] '.time + '[COMMANDS] '.commands + 'Started refreshing application (/) commands.');
 
 (async () => {
 	try {
 
 		await rest.put(Routes.applicationCommands(clientId), { body: commands })
-			.then(() => console.log('[COMMANDS] Successfully reloaded application (/) commands.'))
+			.then(() => console.log('['.time + DateTime.now().toFormat('D TT').time + '] '.time + '[COMMANDS] '.commands + 'Successfully reloaded application (/) commands.'))
 			.catch(console.error);
 
 	}
